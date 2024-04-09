@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import FormTodo from './components/FormTodo'
+import FormTodo from './components/TodoList/FormTodo'
 
 function App() {
 

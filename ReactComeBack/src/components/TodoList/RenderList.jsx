@@ -24,14 +24,16 @@ const RenderList = ({ item, onDelete, Edit }) => {
   if (!onEdit) {
     display = (
       <div className="flex justify-center mt-1">
-        <p
-          className={`bg-white text-center px-10 rounded w-auto ${
-            checker ? "check" : ""
-          }`}
-          onClick={handelCheck}
-        >
-          {item.title}
-        </p>
+      <div className="min-w-40">
+          <p
+            className={`bg-white text-center px-10 rounded h-full hover:cursor-pointer hover:bg-slate-300 ${
+              checker ? "check" : ""
+            }`}
+            onClick={handelCheck}
+          >
+            {item.title}
+          </p>
+      </div>
         {/* <button type="button" onClick={() => handelCheck()}>
           checked
         </button> */}
