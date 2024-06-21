@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  font-family: "Seymour One", sans-serif;
+}
+
 @layer components {
   .card {
     background-color: theme('colors.white');

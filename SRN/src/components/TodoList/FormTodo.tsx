@@ -1,6 +1,8 @@
 import { FormEvent, useState } from "react";
 import Swal from "sweetalert2";
 import RenderList from "./RenderList";
+import { FaArtstation } from "react-icons/fa";
+
 
 export type list = {
   id: number;
@@ -43,6 +45,7 @@ const FormTodo = () => {
     <div className="container mx-auto bg-indigo-700 h-screen text-center pt-8">
       <div className="flex flex-col justify-center border-2 border-black">
         <h1 className="text-white text-4xl font-SeymourOne">FormTodo</h1>
+        <FaArtstation className="text-white"/>
         <form onSubmit={onSubmit} className="pt-10">
           <input
           className="py-1 rounded"
