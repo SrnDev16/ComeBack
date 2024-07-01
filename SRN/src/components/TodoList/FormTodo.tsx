@@ -1,10 +1,8 @@
 import { FormEvent, useState } from "react";
 import Swal from "sweetalert2";
 import RenderList from "./RenderList";
-import { FaArtstation } from "react-icons/fa";
 
-
-export type list = {
+export type myList = {
   id: number;
   title: string;
   check: boolean;
@@ -12,7 +10,7 @@ export type list = {
 
 const FormTodo = () => {
   const [title, setTitle] = useState<string>("");
-  const [list, setList] = useState<list[]>([]);
+  const [list, setList] = useState<myList[]>([]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,37 +26,56 @@ const FormTodo = () => {
         icon: "success",
         title: "บันทึกข้อมูลเรียบร้อย",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1000,
       });
-        const data = {
-            id: Date.now(),
-            title: title,
-            check: false,
-        }
-        setList([...list, data]);
-        setTitle("");
+      const data = {
+        id: Date.now(),
+        title: title,
+        check: false,
+      };
+      setList([...list, data]);
+      setTitle("");
     }
-    console.log(list)
+    console.log(list);
+  };
+
+  const deleteFunction = (id: number) => {
+    setList(list.filter((list: myList) => list.id !== id));
+  };
+
+  const onEditFunction = (id: number, title: string) => {
+    setList(
+      list.map((list: myList) => {
+        if (list.id === id) {
+          return { ...list, title: title };
+        } else {
+          return list;
+        }
+      })
+    );
   };
 
   return (
-    <div className="container mx-auto bg-indigo-700 h-screen text-center pt-8">
-      <div className="flex flex-col justify-center border-2 border-black">
+    <div className="container-xl mx-auto bg-slate-800 h-screen text-center pt-8">
+      <div className="flex flex-col justify-center">
         <h1 className="text-white text-4xl font-SeymourOne">FormTodo</h1>
-        <FaArtstation className="text-white"/>
-        <form onSubmit={onSubmit} className="pt-10">
+        <form onSubmit={onSubmit} className="pt-10 mb-4">
           <input
-          className="py-1 rounded"
+            className="py-1 rounded"
             type="text"
             name=""
             id=""
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <button type="submit" className="btn-primary">Submit</button>
+          <button type="submit" className="btn-primary">
+            Submit
+          </button>
         </form>
-        <div className="flex flex-col-reverse text-center border-1 border-red-900">
-            {list?.map((item:list) => (<RenderList key={item.id} list={item}/>))}
+        <div>
+          {list?.map((item: myList) => (
+            <RenderList key={item.id} list={item} deleteTodo={deleteFunction} editTodo={onEditFunction}/>
+          ))}
         </div>
       </div>
     </div>
