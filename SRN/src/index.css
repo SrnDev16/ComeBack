@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 *{
-  font-family: "Seymour One", sans-serif;
+  /* font-family: "Seymour One", sans-serif; */
 }
 
 @layer components {
