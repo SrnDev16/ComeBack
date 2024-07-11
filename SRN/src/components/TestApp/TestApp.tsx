@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect,   useState } from "react";
 import AppBar from "./AppBar";
-import { IoTrash } from "react-icons/io5";
+import FavPoke from "./FavPoke";
 
-type pokeType = {
+
+export type pokeType = {
   id: string;
   favId: string;
   name: string;
@@ -10,11 +11,11 @@ type pokeType = {
     ability: { name: string; url: string };
   }[];
   sprites: {
-    other:{
+    other: {
       home: {
         front_default: string;
-      }
-    }
+      };
+    };
   };
 };
 
@@ -39,30 +40,28 @@ const TestApp = () => {
     };
 
     getData();
-  }, [number,fav]);
+  }, [number]);
 
   const nextPoke = () => {
     setNumber(number + 1);
-    console.log(number);
   };
   const prevPoke = () => {
     setNumber(number - 1);
-    console.log(number);
-
     if (number < 2) {
       setNumber(1);
     }
   };
 
-  const addFav = (name:string) => {
-    setFav((fav: any) => [...fav, poke]);
+  const addFav = () => {
+    const newPoke = {...poke, favId: Date.now().toString(36)}
+    setFav((fav: any) => [...fav, newPoke]);
   };
 
-  const deleteFav = (name: string) => {
-    setFav(fav.filter((fav: any) => fav.name !== name));
+  const deleteFav = (favId: string) => {
+    setFav(fav.filter((fav: any) => fav.favId !== favId));
   };
 
-  console.log(poke);
+  console.log(fav);
 
   if (loading) {
     return <div>Loading....</div>;
@@ -73,8 +72,10 @@ const TestApp = () => {
         <div className="container flex-cols divide-y-2 md:flex md:divide-x-2 bg-gray-100 m-auto rounded-sm drop-shadow">
           <div className="md:w-1/2 text-center flex flex-col justify-start items-center p-2">
             <h1 className="text-xl underline">name : {poke?.name}</h1>
-            <img className="w-1/2" src={poke?.sprites.other.home.front_default} />
-            {/* poke.sprites?.other.home.front_default */}
+            <img
+              className="w-1/2"
+              src={poke?.sprites.other.home.front_default}
+            />
             <h2 className="underline text-lg">Skill</h2>
             <ul>
               {poke?.abilities.map((skill, index) => (
@@ -85,19 +86,19 @@ const TestApp = () => {
             </ul>
             <button
               className="bg-green-300 px-3 rounded hover:-translate-y-1 my-3"
-              onClick={(poke:any) => addFav(poke.name)}
+              onClick={addFav}
             >
               Add to favorite
             </button>
             <div className="flex">
               <button
-                className="bg-blue-500 rounded-sm px-2 hover:bg-blue-800 hover:text-white w-[70px] mr-3"
+                className="bg-blue-500 shadow-lg shadow-blue-400 rounded-sm px-2 hover:bg-blue-800 hover:text-white w-[70px] mr-3"
                 onClick={prevPoke}
               >
                 Pev
               </button>
               <button
-                className="bg-blue-500 rounded-sm px-2 hover:bg-blue-800 hover:text-white w-[70px]"
+                className="bg-blue-500 shadow-lg shadow-blue-400 rounded-sm px-2 hover:bg-blue-800 hover:text-white w-[70px]"
                 onClick={nextPoke}
               >
                 Next
@@ -105,32 +106,8 @@ const TestApp = () => {
             </div>
           </div>
           <div className="md:w-1/2 text-center p-2">
-            {fav.length === 0 ? (
-              <div>Your favorite is empty</div>
-            ) : (
-              <div className="flex flex-wrap justify-start text-center">
-                {fav?.map((fav: pokeType) => (
-                  <div
-                    key={fav.id}
-                    className="w-1/3 flex flex-col items-center justify-center"
-                  >
-                    <p>{fav.name}</p>
-                    <img
-                      className="w-[150px]"
-                      src={fav.sprites.other.home.front_default}
-                      alt=""
-                    />
-                    {fav.id}
-                    <button
-                      className="my-2 bg-indigo-500 px-3 py-2 rounded text-white text-l"
-                      onClick={() => deleteFav(fav.name)}
-                    >
-                      <IoTrash />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+          
+            <FavPoke fav={fav} deleteFav={deleteFav}/>
           </div>
         </div>
       </div>
