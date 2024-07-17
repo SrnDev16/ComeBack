@@ -58,7 +58,7 @@ const TestApp = () => {
   };
 
   const deleteFav = (favId: string) => {
-    setFav(fav.filter((fav: any) => fav.favId !== favId));
+    setFav(fav.filter((fav) => fav.favId !== favId));
   };
 
   console.log(fav);

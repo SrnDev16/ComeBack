@@ -12,7 +12,7 @@ const FavPoke = ({ fav, deleteFav }: favProps) => {
   } else {
     return (
       <div className="flex flex-wrap justify-start text-center">
-        {fav.map((fav: any) => (
+        {fav.map((fav) => (
           <div className="w-1/3 flex flex-col items-center justify-center p-2" key={fav.favId}>
             <h3>{fav.name}</h3>
             <img

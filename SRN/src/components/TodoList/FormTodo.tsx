@@ -73,7 +73,7 @@ const FormTodo = () => {
           </button>
         </form>
         <div>
-          {list?.map((item: myList) => (
+          {list?.map((item) => (
             <RenderList key={item.id} list={item} deleteTodo={deleteFunction} editTodo={onEditFunction}/>
           ))}
         </div>
