@@ -10,17 +10,30 @@ export type Todo = {
 const FormTodo = () => {
   const [todo, setTodo] = useState<string>("");
   const [list, setList] = useState<Todo[]>([]);
-
-
+  const [checkEdit, setCheckEdit] = useState<Boolean>(false);
+  const [newTodo, setNewTodo] = useState<string>("");
 
   const submitTodo = (e: React.FormEvent) => {
     e.preventDefault();
+    if (todo === "") return;
     const newTodo = {
       id: uuidv4(),
       todo: todo,
     };
     setList([...list, newTodo]);
     setTodo("");
+  };
+
+  const onEdit = (id: string) => {
+    setList(
+      list.map((item) =>
+        item.id === id ? { ...item, todo: newTodo } : item
+      )
+    );
+    console.log(newTodo);
+
+    setCheckEdit(false);
+    console.log("edit");
   };
 
   return (
@@ -36,7 +49,19 @@ const FormTodo = () => {
         />
         <button type="submit">save</button>
       </form>
-      <RenderList todo={list} />
+      <div className="">
+        {list.map((item) => (
+          <RenderList
+            key={item.id}
+            title={item.todo}
+            checkEdit={checkEdit}
+            setCheckEdit={setCheckEdit}
+            setNewTodo={setNewTodo}
+            onEdit={onEdit}
+            id={item.id}
+          />
+        ))}
+      </div>
     </div>
   );
 };
