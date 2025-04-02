@@ -19,16 +19,18 @@ const FormTodo = () => {
     const newTodo = {
       id: uuidv4(),
       todo: todo,
+      edit: false,
     };
     setList([...list, newTodo]);
     setTodo("");
   };
 
   const onEdit = (id: string) => {
+    if (!newTodo) {
+      return alert("Please inset todo.");
+    }
     setList(
-      list.map((item) =>
-        item.id === id ? { ...item, todo: newTodo } : item
-      )
+      list.map((item) => (item.id === id ? { ...item, todo: newTodo } : item))
     );
     console.log(newTodo);
 
@@ -36,20 +38,24 @@ const FormTodo = () => {
     console.log("edit");
   };
 
+  const deleteTodo = (id: string) => {
+    setList(list.filter((item) => item.id !== id));
+  };
+
   return (
-    <div>
-      <form onSubmit={submitTodo}>
-        <label>Todo</label>
+    <div className="container bg-gray-100 mx-auto h-dvh flex flex-col items-center drop-shadow-lg">
+      <form className="mt-7" onSubmit={submitTodo}>
+        <label className="myFont">Todo</label>
         <input
-          className="border m-1 rounded"
+          className="border m-1 rounded bg-white"
           type="text"
           name="todo"
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
         />
-        <button type="submit">save</button>
+        <button>save</button>
       </form>
-      <div className="">
+      <div className="mt-2 bg-white p-5  rounded-2xl">
         {list.map((item) => (
           <RenderList
             key={item.id}
@@ -59,6 +65,7 @@ const FormTodo = () => {
             setNewTodo={setNewTodo}
             onEdit={onEdit}
             id={item.id}
+            onDelete={deleteTodo}
           />
         ))}
       </div>
